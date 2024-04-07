@@ -28,6 +28,8 @@ namespace Employees.Data.Repositories
         {
             return await _data.Companies.FindAsync(id);
         }
+
+
         public async Task<Company> LoginCompanyAsync(string userName, string password)
         {
             var exists = await _data.Companies
@@ -37,13 +39,12 @@ namespace Employees.Data.Repositories
             return exists;
         }
 
-        //include managerId and companyTerms
         public async Task<Company> AddNewCompanyAsync(Company company)
         {
             if (company == null)
                 return null;
             var exist = _data.Companies.Any(c => c.Name == company.Name ||
-            c.UserName == company.UserName || c.Password == company.Password);
+            c.UserName == company.UserName );
             if (exist)
                 return null;
             _data.Companies.Add(company);

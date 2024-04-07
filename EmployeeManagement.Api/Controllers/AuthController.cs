@@ -75,7 +75,7 @@ namespace EmployeeManagement.Api.Controllers
             };
             var result = await _service.RegisterAsync(comp);
             if (result == null)
-                return NotFound();//check which status code is fit here.
+                return BadRequest();//check which status code is fit here.
             //return Ok(_mapper.Map<CompanyDto>(result));
 
             var tokenString = CreateJwtToken(result);

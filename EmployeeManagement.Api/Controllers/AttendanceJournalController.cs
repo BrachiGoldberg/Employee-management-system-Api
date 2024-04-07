@@ -38,9 +38,29 @@ namespace EmployeeManagement.Api.Controllers
                 EndingTime = new TimeOnly(aj.EndHour, aj.EndMinutes)
             };
             var result = await _service.AddAsync(id, myAj);
-            if(result == null)
+            if (result == null)
                 return NotFound();
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<AttendanceJournal>> PostListAsync([FromBody] List<AttendanceJournalPostModel> attendances)
+        {
+            var listResult = new List<AttendanceJournal>();
+            foreach (var attendance in attendances)
+            {
+                var myAj = new AttendanceJournal()
+                {
+                    Date = attendance.Date,
+                    BeginningTime = new TimeOnly(attendance.BeginHour, attendance.BeginMinutes),
+                    EndingTime = new TimeOnly(attendance.EndHour, attendance.EndMinutes)
+                };
+                var result = await _service.AddAsync(attendance.EmployeeId, myAj);
+                if (result == null)
+                    return NotFound();
+                listResult.Add(result);
+            }
+            return Ok(listResult);
         }
 
     }
